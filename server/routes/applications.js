@@ -11,9 +11,9 @@ const dbo = require("../db/conn");
 // This help convert the id from string to ObjectId for the _id.
 const ObjectId = require("mongodb").ObjectId;
 
-// This section will help you get a list of all the applications.
+// Get all applications
 applicationRoutes.route("/applications").get(function (req, res) {
-  let db_connect = dbo.getDb("jobs");
+  let db_connect = dbo.getDb("jobhunt");
   db_connect
     .collection("applications")
     .find({})
@@ -23,7 +23,7 @@ applicationRoutes.route("/applications").get(function (req, res) {
     });
 });
 
-// This section will help you get a single applications by id
+// Get a single application
 applicationRoutes.route("/applications/:id").get(function (req, res) {
   let db_connect = dbo.getDb();
   let myquery = { _id: ObjectId(req.params.id) };
@@ -35,22 +35,26 @@ applicationRoutes.route("/applications/:id").get(function (req, res) {
     });
 });
 
-// This section will help you create a new applications.
-applicationRoutes.route("/applications/add").post(function (req, response) {
+// Create a new application
+applicationRoutes.route("/applications/add").post((req, response) => {
   let db_connect = dbo.getDb();
   let myobj = {
-    name: req.body.name,
+    company: req.body.company,
     position: req.body.position,
-    level: req.body.level,
+    website: req.body.website,
+    location: req.body.location,
+    applied: req.body.applied,
+    comments: req.body.comments,
+    status: req.body.status,
   };
-  db_connect.collection("applications").insertOne(myobj, function (err, res) {
+  db_connect.collection("applications").insertOne(myobj, (err, res) => {
     if (err) throw err;
     response.json(res);
   });
 });
 
-// This section will help you update a applications by id.
-applicationRoutes.route("/update/:id").post(function (req, response) {
+// Update an application
+applicationRoutes.route("/update/:id").post((req, response) => {
   let db_connect = dbo.getDb();
   let myquery = { _id: ObjectId(req.params.id) };
   let newvalues = {
@@ -62,14 +66,14 @@ applicationRoutes.route("/update/:id").post(function (req, response) {
   };
   db_connect
     .collection("applications")
-    .updateOne(myquery, newvalues, function (err, res) {
+    .updateOne(myquery, newvalues, (err, res) => {
       if (err) throw err;
       console.log("1 document updated");
       response.json(res);
     });
 });
 
-// This section will help you delete a applications
+// Delete an application
 applicationRoutes.route("/:id").delete((req, response) => {
   let db_connect = dbo.getDb();
   let myquery = { _id: ObjectId(req.params.id) };
