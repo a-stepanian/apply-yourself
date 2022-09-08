@@ -60,8 +60,12 @@ const Wrapper = styled.nav`
       display: block;
       width: 0.05rem;
       height: 1.8rem;
-      margin: 0 1.5rem;
+      margin: 0 0.5rem;
       background-color: black;
+    }
+    h1,
+    a {
+      width: 25%;
     }
     a {
       display: block;
@@ -69,6 +73,7 @@ const Wrapper = styled.nav`
       text-decoration: none;
       display: flex;
       align-items: center;
+      justify-content: center;
       span {
         margin-right: 0.5rem;
       }
